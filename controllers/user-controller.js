@@ -17,7 +17,7 @@ const getAllUser = async (req, res, next) => {
     return res.status(200).json({ users });
 };
 
-const signup = async (req, res, next) => {
+const signup = async (req, res) => {
     const { name, email, password } = req.body;
 
     let existinUser;
@@ -49,7 +49,7 @@ const signup = async (req, res, next) => {
     return res.status(201).json({ user })
 }
 
-const login = async (req, res, next) => {
+const login = async (req, res) => {
     const { email, password } = req.body;
     let existinUser;
 
