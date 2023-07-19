@@ -37,7 +37,7 @@ Conectar com o Postman na porta de acordo com a sua variável de ambiente
 | --- | --- | --- |
 | POST | /api/user/signup | Registra um novo usuário |
 | POST | /api/user/login | Realiza o login com um usuário já criado |
-| POST | /api/blog/add | Cria um novo blog |
+| POST | /api/blog/add | Cria um novo blog e o adiciona a um usuário |
 | GET | /api/user | Retorna todos os usuários |
 | GET | /api/blog | Retorna todos os blogs |
 | GET | /api/blog/:id | Retorna o blog indicado pelo id |
