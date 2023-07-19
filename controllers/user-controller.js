@@ -1,32 +1,25 @@
 // const express = require('express');
 const bcrypt = require('bcryptjs');
-
+const asyncHandler = require('express-async-handler');
 const User = require('../model/User');
 
-const getAllUser = async (req, res, next) => {
-    let users;
-    try {
-        users = await User.find();
-    } catch (error) {
-        console.log(error);
-    }
+const getAllUser = asyncHandler(async (req, res) => {
+    const users = await User.find();
 
     if(!users) {
-        return res.status(404).json({ message: 'No users found' })
+        res.status(404)
+        throw new Error('No Users Found')
     }
-    return res.status(200).json({ users });
-};
 
-const signup = async (req, res) => {
+    res.status(200).json(users)
+});
+
+const signup = asyncHandler(async (req, res) => {
     const { name, email, password } = req.body;
 
-    let existinUser;
-    try {
-        existinUser = await User.findOne({ email });
-    } catch (error) {
-        console.log(error);
-    }
-    if (existinUser) {
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
         return res
         .status(400)
         .json({ message: `User already exists!` })
@@ -41,37 +34,30 @@ const signup = async (req, res) => {
         blogs: [],
     });
 
-    try {
         user.save();
-    } catch (error) {
-        console.log(error);
-    }
-    return res.status(201).json({ user })
-}
 
-const login = async (req, res) => {
+    return res.status(201).json(user)
+});
+
+const login = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
-    let existinUser;
+    const existinUser = await User.findOne({ email })
 
-    try {
-        existinUser = await User.findOne({ email })
-    } catch (error) {
-        console.log(error);
-    }
     if (!existinUser) {
         return res
         .status(404)
-        .json({ message: 'Couldnt find User by this email' })
+        .json({ message: 'Login Error' })
     }
     const isPasswordCorrect = bcrypt.compareSync(password, existinUser.password)
-    if (!isPasswordCorrect) {
-        return res.status(400).json({ message: 'Incorrect password' })
+    
+    if (!isPasswordCorrect || !existinUser) {
+        return res.status(400).json({ message: 'Login error' })
     }
     return res
     .status(200)
     .json({ message: 'Login Successfull' });
     
-}
+});
 
 module.exports = {
     getAllUser,
