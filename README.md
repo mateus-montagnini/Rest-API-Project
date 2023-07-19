@@ -17,3 +17,15 @@ Fazer a instalação das dependências do projeto
 ```shell
 npm install
 ```
+
+Criar um arquivo .env e declarar as variáveis de ambiente de acordo com o arquivo "env.example"
+
+## Uso da API
+
+Para iniciar a aplicação, utilizar no terminal o comando:
+
+```shell
+npm run dev
+```
+
+Conectar com o Postman na porta de acordo com a sua variável de ambiente
