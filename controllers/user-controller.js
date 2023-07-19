@@ -41,16 +41,16 @@ const signup = asyncHandler(async (req, res) => {
 
 const login = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
-    const existinUser = await User.findOne({ email })
+    const existingUser = await User.findOne({ email })
 
-    if (!existinUser) {
+    if (!existingUser) {
         return res
         .status(404)
         .json({ message: 'Login Error' })
     }
-    const isPasswordCorrect = bcrypt.compareSync(password, existinUser.password)
+    const isPasswordCorrect = bcrypt.compareSync(password, existingUser.password)
     
-    if (!isPasswordCorrect || !existinUser) {
+    if (!isPasswordCorrect || !existingUser) {
         return res.status(400).json({ message: 'Login error' })
     }
     return res

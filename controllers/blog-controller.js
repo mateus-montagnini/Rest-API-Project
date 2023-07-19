@@ -1,6 +1,7 @@
 const Blog = require('../model/Blog');
 const User = require('../model/User');
 const asyncHandler = require('express-async-handler');
+const { default: mongoose } = require('mongoose');
 
 const getAllBlogs = asyncHandler(async (req, res) => {
    const blogs = await Blog.find();
@@ -13,6 +14,13 @@ const getAllBlogs = asyncHandler(async (req, res) => {
 const addBlog = asyncHandler(async (req, res) => {
     const { title, description, image, user } = req.body;
 
+    const existingUser = await User.findById(user)
+
+    if(!existingUser) {
+        res.status(400)
+        throw new Error('Unable to find user by this id')
+    }
+
     if(!title || !description || !image || !user) {
         res.status(400);
         throw new Error('All fields are mandatory')
@@ -24,6 +32,17 @@ const addBlog = asyncHandler(async (req, res) => {
         image,
         user,
     });
+
+    try {
+        const session = await mongoose.startSession();
+        session.startTransaction();
+        await newBlog.save({ session });
+        existingUser.blogs.push(newBlog)
+        await existingUser.save({ session });
+        await session.commitTransaction();
+    } catch (error) {
+        console.log(error);
+    }
     
     return res.status(201).json(newBlog)
 });
@@ -46,7 +65,6 @@ const updateBlog = asyncHandler(async (req, res) => {
 });
 
 const getById = asyncHandler(async (req, res) => {
-    // const { id } = req.params.id;
     const blog = await Blog.findById(req.params.id);
 
     if(!blog) {
