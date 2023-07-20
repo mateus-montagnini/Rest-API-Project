@@ -9,7 +9,7 @@ API Rest que possibilita a criação de usuários com "name", "email" e "passwor
 Realizar clone do projeto
 
 ```shell
-git clone https://github.com/emeath/loja-anime.git
+git clone https://github.com/mateus-montagnini/Rest-API-Project.git
 ```
 
 Fazer a instalação das dependências do projeto
@@ -22,7 +22,7 @@ Criar um arquivo .env e declarar as variáveis de ambiente de acordo com o arqui
 
 ## Uso da API
 
-Para iniciar a aplicação, utilizar no terminal o comando:
+Para iniciar a aplicação, utilizar o comando:
 
 ```shell
 npm run dev
