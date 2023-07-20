@@ -6,7 +6,7 @@ API Rest que possibilita a criação de usuários com "name", "email" e "passwor
 
 ## Instalação
 
-Realizar clone do projeto
+Realizar o clone do projeto
 
 ```shell
 git clone https://github.com/mateus-montagnini/Rest-API-Project.git
